@@ -1,7 +1,4 @@
 package com.hfad.getcontact;
-
-import android.net.Uri;
-
 public class ContactListModel {
 
     private String id;

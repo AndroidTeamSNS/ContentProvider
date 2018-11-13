@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,7 +19,7 @@ import android.widget.Toast;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "jdnbhjdbhbhsdfbh";
     private String[] permission = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS};
     private boolean isPermissionGranted;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerviewAdapter adapter;
     private GridLayoutManager gridLayoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +40,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         checkContactPermission();
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
 
     }
 
     private void initViews() {
+
+        swipeRefreshLayout = findViewById(R.id.SwipRefreshLayoutMainID);
         recyclerView = findViewById(R.id.recyclerViewID);
     }
 
@@ -82,11 +88,7 @@ public class MainActivity extends AppCompatActivity {
             }
             isPermissionGranted = true;
             getPhoneContactData();
-
-
         }
-
-
     }
 
     private void getPhoneContactData() {
@@ -123,10 +125,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        if ("hhh".equals("dcdd")) {
+            Log.i(TAG, "getPhoneContactData: ");
+        } else {
+            Log.i(TAG, "getPhoneContactData: ");
+        }
         observeContact = new ObserveContact() {
             @Override
             public void success(List<ContactListModel> list) {
                 if (list != null) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                     initAdapter(list);
                 }
             }
@@ -138,5 +148,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    public void onRefresh() {
+        getPhoneContactData();
     }
 }
