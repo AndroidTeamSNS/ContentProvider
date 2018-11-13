@@ -115,7 +115,10 @@ public class MainActivity extends AppCompatActivity {
                     list.add(new ContactListModel(id, image, name, phone));
                 } else {
                     list.add(new ContactListModel(id, "NULL", name, phone));
-                    // sbsnjnsjkn
+                    // Shant TASK 1
+                    // sbsnjnsjknfnwerjfnjwernfjnrjfnjwenfj
+                    //aefnaejfnjenfjne4jnfjenfjnejnfjnejfnje
+                    //fdnaekdfnjkaenmfjkmekfmkemfkem
 
                 }
             }
